@@ -1,9 +1,16 @@
 name: branch-policy
 on:
+  workflow_dispatch:
+    inputs:
+      pull_request_number:
+        description: Pull request to validate for this exact branch commit
+        required: true
+        type: string
   pull_request:
     branches: [znixflow-staging, main]
 permissions:
   contents: read
+  pull-requests: read
 jobs:
   promotion:
     runs-on: ubuntu-latest
@@ -14,7 +21,20 @@ jobs:
           HEAD_BRANCH: ${{ github.head_ref }}
           HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
           REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          PR_NUMBER: ${{ inputs.pull_request_number }}
+          COMMIT_SHA: ${{ github.sha }}
         run: |
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            [[ "$PR_NUMBER" =~ ^[0-9]+$ ]] || exit 1
+            pr=$(gh api "repos/$REPO/pulls/$PR_NUMBER")
+            [ "$(jq -r .state <<< "$pr")" = "open" ] || exit 1
+            [ "$(jq -r .head.sha <<< "$pr")" = "$COMMIT_SHA" ] || exit 1
+            BASE_BRANCH=$(jq -r .base.ref <<< "$pr")
+            HEAD_BRANCH=$(jq -r .head.ref <<< "$pr")
+            HEAD_REPO=$(jq -r .head.repo.full_name <<< "$pr")
+          fi
           if [ "$HEAD_REPO" != "$REPO" ]; then
             echo 'Release promotion must come from this repository.'
             exit 1
