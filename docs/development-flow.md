@@ -26,8 +26,9 @@ git push origin znixflow-development
 7. Merge origin/main back into znixflow-development and push to keep histories aligned.
 
 Keep all three long-lived branches. Do not squash release promotions or delete the source branches.
-Planned remote protections (pending activation): staging and main require PRs, passing verify and promotion checks, and resolved conversations.
-The remote protection setup will disable force pushes and branch deletion. Solo operation does not require a second reviewer.
+Staging and main require PRs, passing verify and promotion checks, and resolved conversations.
+Protections also apply to administrators. Force pushes and branch deletion are disabled.
+Solo operation does not require a second reviewer.
 
 ## Hosting status
 
