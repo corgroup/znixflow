@@ -1,0 +1,64 @@
+:root {
+  font-family: Inter, system-ui, sans-serif;
+  color: #e8eff3;
+  background: #0d1315;
+  font-synthesis: none;
+}
+body {
+  margin: 0;
+}
+main {
+  max-width: 850px;
+  margin: 10vh auto;
+  padding: 32px;
+}
+.eyebrow {
+  color: #19e66c;
+  letter-spacing: 0.18em;
+  font-size: 13px;
+}
+h1 {
+  font-size: clamp(36px, 6vw, 64px);
+  line-height: 1.07;
+  max-width: 700px;
+}
+p {
+  line-height: 1.7;
+  color: #adc0cb;
+}
+section {
+  border: 1px solid #354853;
+  padding: 32px;
+  border-radius: 16px;
+  margin: 44px 0;
+  background: #151d20;
+}
+section span {
+  color: #19e66c;
+  font-size: 13px;
+}
+li {
+  line-height: 2;
+  color: #c9d6de;
+}
+footer {
+  font-size: 12px;
+  color: #8fa5b1;
+}
+
+/* Display the supplied sheet's dark wordmark without altering the source asset. */
+.brand-logo {
+  position: relative;
+  width: min(100%, 460px);
+  aspect-ratio: 920 / 210;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.brand-logo img {
+  position: absolute;
+  width: 166.956522%;
+  max-width: none;
+  height: auto;
+  left: -8.695652%;
+  top: -338.095238%;
+}

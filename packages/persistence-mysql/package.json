@@ -1,0 +1,5 @@
+{
+  "type": "module",
+  "name": "@znixflow/persistence-mysql",
+  "private": true
+}

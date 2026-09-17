@@ -1,0 +1,25 @@
+name: branch-policy
+on:
+  pull_request:
+    branches: [znixflow-staging, main]
+permissions:
+  contents: read
+jobs:
+  promotion:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate promotion source
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+          HEAD_BRANCH: ${{ github.head_ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          if [ "$HEAD_REPO" != "$REPO" ]; then
+            echo 'Release promotion must come from this repository.'
+            exit 1
+          fi
+          case "$BASE_BRANCH:$HEAD_BRANCH" in
+            znixflow-staging:znixflow-development|main:znixflow-staging) exit 0 ;;
+            *) echo 'Use znixflow-development -> znixflow-staging -> main.'; exit 1 ;;
+          esac
